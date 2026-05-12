@@ -4,6 +4,11 @@ This repository contains the code for the BMEG-E511 Biomedical Image Processing 
 ## Dataset
 The dataset used in this study consisted of whole-brain T1-weighted (T1W) Magnetic Resonance Imaging (MRI) scans downloaded from the Alzheimer’s Disease Neuroimaging Initiative (ADNI) database. A total of 209 MRI scans were obtained through the ADNI search interface. Participants were grouped into three diagnostic categories for analysis: cognitively normal (CN), mild cognitive impairment (MCI), and Alzheimer’s disease (AD). The dataset included 31 unique subjects consisting of 14 females and 17 males, ranging in age from 60 to 93 years. For this project, the unit of analysis was defined as a subject-visit sample, representing one processed scan per subject per visit.
 
+
+<img width="1800" alt="SegmentedFigure_Panel" src="https://github.com/user-attachments/assets/50e4ecd2-732f-4abe-80a9-39939a93baec" />
+
+*Representative axial and coronal MRI slices together with corresponding SynthSeg segmentation outputs and hemispheric asymmetry index measurements for CN, MCI, and AD subjects.*
+
 ## Project Contents
 - `ADNI_Metadata.csv`: metadata corresponding to the raw MRI scans downloaded from the ADNI database, including subject and visit information.
 - `SynthSeg_train_volumes.csv` and `SynthSeg_test_volumes.csv`: Region-wise volumetric summary tables for the training and test datasets containing estimated volumes for each segmented brain structure generated from the SynthSeg outputs.
