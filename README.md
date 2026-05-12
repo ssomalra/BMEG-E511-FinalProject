@@ -20,10 +20,9 @@ The dataset used in this study consisted of whole-brain T1-weighted (T1W) Magnet
   5. `N4-Registration_test.py` and `N4-Registration_test.sh`: Apply N4 bias correction, affine registration, and scan averaging to the test MRI dataset.
   6. `skull_stripping.sh`: Performs skull stripping on preprocessed MRI scans using FreeSurfer’s mri_synthstrip.
   7. `synthseg_full.sh`: Runs SynthSeg on skull-stripped MRI scans to generate segmentation maps and region-wise volume CSV files.
-  8. `AI_compute.py`:
-  9. `AI_compute_assymetry_plot.py`:
-  10. `AI_compute_assymetry_plot.py`:
-  11. `asymmetry_index_kruskal_welch.py` and `assymetry_index_wilcox.py`:
+  8. `AI_compute.py`: Computes asymmetry index values from SynthSeg-derived volume CSV files and saves the resulting AI feature tables.
+  9. `AI_compute_assymetry_plot.py`: Generates plots to visualize asymmetry index distributions across diagnostic groups.
+  11. `asymmetry_index_kruskal_welch.py` and `assymetry_index_wilcox.py`: Runs statistical testing on asymmetry index values between diagnostic groups
 
 > [!NOTE]
 > **The raw MRI data, preprocessing outputs, and downstream analysis files are stored on the institutional high-performance computing (HPC) system at the following directory path: `/N/scratch/ssomalra/BMEG_project`**
