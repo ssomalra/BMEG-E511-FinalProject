@@ -37,3 +37,25 @@ The dataset used in this study consisted of whole-brain T1-weighted (T1W) Magnet
 - `skull_stripped_files/`: Contains skull-stripped MRI scans generated using FreeSurfer’s `mri_synthstrip.`
 - `synthseg/`: Contains SynthSeg segmentation outputs, including segmentation maps, region-wise volumetric summary tables, merged analysis files, and downstream asymmetry analysis results.
 - `asymmetry_scores/`: Contains calculated hemispheric asymmetry score files, statistical analysis outputs, and asymmetry visualization plots
+
+## Contributions
+Below summarizes the following scripts completed by each contributor:
+#### Vignesh
+- `organize_adni.py`
+- `split_subjects.py`
+- `synthseg_full.sh`
+
+#### Sahiti
+- `dicom_to_nifti_conversion.sh`
+- `N4-Registration_train.py` and `N4-Registration_train.sh`
+- `N4-Registration_test.py` and `N4-Registration_test.sh`
+- `skull_stripping.sh`
+
+#### Venkatesh
+- `AI_compute.py`
+- `AI_compute_assymetry_plot.py`
+- `asymmetry_index_kruskal_welch.py` and `assymetry_index_wilcox.py`
+> [!NOTE]
+> **Machine learning scripts from Venkatesh are unavailable despite multiple attempts to contact him.**
+  
+ 
