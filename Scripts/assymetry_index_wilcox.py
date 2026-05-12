@@ -1,0 +1,123 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+from scipy.stats import wilcoxon
+import itertools
+
+# ── Hardcoded Paths ───────────────────────────────────────────────────────────
+
+TRAIN_AI   = "/N/scratch/ssomalra/BMEG_project/synthseg/analysis/train_AI.csv"
+TRAIN_PLOT = "/N/scratch/ssomalra/BMEG_project/synthseg/analysis/train_AI_boxplot.png"
+
+TEST_AI    = "/N/scratch/ssomalra/BMEG_project/synthseg/analysis/test_AI.csv"
+TEST_PLOT  = "/N/scratch/ssomalra/BMEG_project/synthseg/analysis/test_AI_boxplot.png"
+
+# ── Plot Config ───────────────────────────────────────────────────────────────
+
+MEASURES       = ['AI_global', 'AI_white_matter', 'AI_grey_matter']
+MEASURE_LABELS = ['Global', 'White Matter', 'Grey Matter']
+GROUP_ORDER    = ['CN', 'MCI', 'AD']
+COLORS         = {'CN': '#b0b0b0', 'MCI': '#c08080', 'AD': '#8b2252'}
+
+# ── Helper Functions ──────────────────────────────────────────────────────────
+
+def significance_label(p):
+    if p < 2.2e-16:
+        return 'p < 2.2e-16'
+    elif p < 0.001:
+        return f'p = {p:.2e}'
+    elif p < 0.05:
+        return f'p = {p:.3f}'
+    else:
+        return f'p = {p:.3f} (ns)'
+
+
+def plot_ai(csv_path, plot_path, split_label):
+    df     = pd.read_csv(csv_path)
+    counts = df.groupby('group').size()
+
+    fig, axes = plt.subplots(1, 3, figsize=(14, 6), sharey=False)
+    fig.patch.set_facecolor('white')
+
+    for ax, measure, label in zip(axes, MEASURES, MEASURE_LABELS):
+        data_by_group = [
+            df[df['group'] == g][measure].dropna().values
+            for g in GROUP_ORDER
+        ]
+
+        bp = ax.boxplot(
+            data_by_group,
+            patch_artist=True,
+            widths=0.5,
+            medianprops=dict(color='black', linewidth=2),
+            whiskerprops=dict(color='#555555', linewidth=1.2, linestyle='--'),
+            capprops=dict(color='#555555', linewidth=1.2),
+            flierprops=dict(marker='o', markersize=3, alpha=0.5, linestyle='none'),
+            boxprops=dict(linewidth=1.2)
+        )
+
+        for patch, g in zip(bp['boxes'], GROUP_ORDER):
+            patch.set_facecolor(COLORS[g])
+            patch.set_alpha(0.85)
+
+        for flier, g in zip(bp['fliers'], GROUP_ORDER):
+            flier.set_markerfacecolor(COLORS[g])
+            flier.set_markeredgecolor(COLORS[g])
+
+        # Pairwise Mann-Whitney U significance brackets
+        y_max = max(d.max() for d in data_by_group if len(d) > 0)
+        y_min = min(d.min() for d in data_by_group if len(d) > 0)
+        step  = (y_max - y_min) * 0.13
+
+        for i, (idx1, idx2) in enumerate(itertools.combinations(range(len(GROUP_ORDER)), 2)):
+            g1, g2 = data_by_group[idx1], data_by_group[idx2]
+            # Wilcoxon Signed-Rank requires paired samples — trim to shorter group
+            min_n  = min(len(g1), len(g2))
+            _, p   = wilcoxon(g1[:min_n], g2[:min_n], alternative='two-sided')
+            x1, x2 = idx1 + 1, idx2 + 1
+            y = y_max + step * (i + 1)
+            ax.plot([x1, x1, x2, x2], [y - step * 0.1, y, y, y - step * 0.1],
+                    lw=1.2, color='black')
+            ax.text((x1 + x2) / 2, y + step * 0.05, significance_label(p),
+                    ha='center', va='bottom', fontsize=7.5)
+
+        # X-axis labels with counts
+        ax.set_xticks([1, 2, 3])
+        ax.set_xticklabels(
+            [f'{g}\n(n={counts.get(g, 0)})' for g in GROUP_ORDER],
+            fontsize=10
+        )
+        ax.set_title(label, fontsize=12, fontweight='bold',
+                     bbox=dict(boxstyle='round,pad=0.3', facecolor='#e8e8e8', edgecolor='#aaaaaa'))
+        ax.set_xlabel('Diagnosis', fontsize=11)
+        ax.set_ylabel('Asymmetry Index (%)', fontsize=11)
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.set_facecolor('white')
+        ax.grid(axis='y', linestyle='--', alpha=0.4)
+
+    legend_patches = [
+        mpatches.Patch(facecolor=COLORS[g], label=f'{g} (n={counts.get(g, 0)})', alpha=0.85)
+        for g in GROUP_ORDER
+    ]
+    fig.legend(handles=legend_patches, loc='lower center', ncol=3,
+               frameon=False, fontsize=11, bbox_to_anchor=(0.5, -0.04))
+
+    plt.suptitle(f'Hemispheric Asymmetry Index by Diagnosis — {split_label}',
+                 fontsize=14, fontweight='bold', y=1.01)
+    plt.tight_layout()
+    plt.savefig(plot_path, dpi=180, bbox_inches='tight', facecolor='white')
+    plt.close()
+    print(f"  Plot saved → {plot_path}")
+
+
+# ── Main ──────────────────────────────────────────────────────────────────────
+
+if __name__ == "__main__":
+    print("Plotting Train set...")
+    plot_ai(TRAIN_AI, TRAIN_PLOT, split_label="Train")
+
+    print("Plotting Test set...")
+    plot_ai(TEST_AI, TEST_PLOT, split_label="Test")
+
+    print("Done.")
