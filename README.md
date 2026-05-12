@@ -22,7 +22,7 @@ The dataset used in this study consisted of whole-brain T1-weighted (T1W) Magnet
   11. `asymmetry_index_kruskal_welch.py` and `assymetry_index_wilcox.py`:
 
 > [!NOTE]
-> The raw MRI data, preprocessing outputs, and downstream analysis files are stored on the institutional high-performance computing (HPC) system at the following directory path: `/N/scratch/ssomalra/BMEG_project`
+> **The raw MRI data, preprocessing outputs, and downstream analysis files are stored on the institutional high-performance computing (HPC) system at the following directory path: `/N/scratch/ssomalra/BMEG_project`**
 - `Scripts`: Contains Python and shell scripts used for data organization, preprocessing, segmentation, asymmetry analysis, and statistical testing workflows
 - `ADNI/`: Contains the original ADNI-downloaded MRI data organized by subject ID. Each subject folder contains T1-weighted acquisition folders such as MP-RAGE, MPRAGE, and repeat scans used as the source imaging data for preprocessing
 - `data/`: Contains project metadata and organized sample information
