@@ -55,6 +55,7 @@ Below summarizes the following scripts completed by each contributor:
 - `AI_compute.py`
 - `AI_compute_assymetry_plot.py`
 - `asymmetry_index_kruskal_welch.py` and `assymetry_index_wilcox.py`
+-  `BMEG_project_classifier.ipynb` and `bmeg_project_classifier.py` both are the same codes 
 > [!NOTE]
 > **Machine learning scripts from Venkatesh are unavailable despite multiple attempts to contact him.**
   
