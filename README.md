@@ -15,14 +15,15 @@ The dataset used in this study consisted of whole-brain T1-weighted (T1W) Magnet
 - **`Scripts`**:
   1. `organize_adni.py`: Organizes downloaded ADNI MRI data into diagnostic group folders (CN, MCI, AD) using subject metadata.
   2. `split_subjects.py`: Creates subject-level train/test splits stratified by diagnostic group to prevent data leakage.
-  3. `dicom_to_nifti_conversion.sh`: Converts raw MRI scans from DICOM format to compressed NIfTI (.nii.gz) format
+  3. `dicom_to_nifti_conversion.sh`: Converts raw MRI scans from DICOM format to compressed NIfTI (.nii.gz) format.
   4. `N4-Registration_train.py` and `N4-Registration_train.sh`: Perform N4 bias correction, affine registration, and scan averaging on the training MRI dataset. 
   5. `N4-Registration_test.py` and `N4-Registration_test.sh`: Apply N4 bias correction, affine registration, and scan averaging to the test MRI dataset.
   6. `skull_stripping.sh`: Performs skull stripping on preprocessed MRI scans using FreeSurfer’s mri_synthstrip.
   7. `synthseg_full.sh`: Runs SynthSeg on skull-stripped MRI scans to generate segmentation maps and region-wise volume CSV files.
   8. `AI_compute.py`: Computes asymmetry index values from SynthSeg-derived volume CSV files and saves the resulting AI feature tables.
   9. `AI_compute_assymetry_plot.py`: Generates plots to visualize asymmetry index distributions across diagnostic groups.
-  11. `asymmetry_index_kruskal_welch.py` and `assymetry_index_wilcox.py`: Runs statistical testing on asymmetry index values between diagnostic groups
+  11. `asymmetry_index_kruskal_welch.py` and `assymetry_index_wilcox.py`: Runs statistical testing on asymmetry index values between diagnostic groups.
+  12. `BMEG_project_classifier.ipynb`: Machine learning workflow used to classify CN, MCI, and AD subjects based on hemispheric asymmetry index features.
 
 > [!NOTE]
 > **The raw MRI data, preprocessing outputs, and downstream analysis files are stored on the institutional high-performance computing (HPC) system at the following directory path: `/N/scratch/ssomalra/BMEG_project`**
@@ -55,6 +56,6 @@ Below summarizes the following scripts completed by each contributor:
 - `AI_compute.py`
 - `AI_compute_assymetry_plot.py`
 - `asymmetry_index_kruskal_welch.py` and `assymetry_index_wilcox.py`
--  `BMEG_project_classifier.ipynb` and `bmeg_project_classifier.py` both are the same codes 
+- `BMEG_project_classifier.ipynb`
   
  
